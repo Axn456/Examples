@@ -251,22 +251,22 @@ order by order_id
 limit 1000
 
 --Task_20
-with ord as (SELECT order_id
-             FROM   orders
-             WHERE  array_length(product_ids, 1) = (SELECT max(array_length(product_ids, 1))
-                                                    FROM   orders))
+with ord as (select order_id
+             from   orders
+             where  array_length(product_ids, 1) = (select max(array_length(product_ids, 1))
+                                                    from   orders))
 
-SELECT o.order_id 
+select o.order_id 
        ,ua.user_id 
-       ,date_part('year', age((SELECT max(time) FROM   user_actions), u.birth_date))::integer user_age 
+       ,date_part('year', age((select max(time) from   user_actions), u.birth_date))::integer user_age 
 	   , c.courier_id 
-	   , date_part('year', age((SELECT max(time) FROM user_actions), c.birth_date))::integer courier_age
-FROM ord o 
-join user_actions ua ON ua.order_id = o.order_id 
-join users u ON u.user_id = ua.user_id 
-join courier_actions ca ON ca.order_id = o.order_id and ca.action = 'deliver_order' 
-join couriers c ON c.courier_id = ca.courier_id
-ORDER BY o.order_id
+	   , date_part('year', age((select max(time) from user_actions), c.birth_date))::integer courier_age
+from ord o 
+join user_actions ua on ua.order_id = o.order_id 
+join users u on u.user_id = ua.user_id 
+join courier_actions ca on ca.order_id = o.order_id and ca.action = 'deliver_order' 
+join couriers c on c.courier_id = ca.courier_id
+order by o.order_id
 
 --Task_21
 with main_table as (select distinct order_id
