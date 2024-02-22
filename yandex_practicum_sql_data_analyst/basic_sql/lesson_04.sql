@@ -28,27 +28,27 @@ group by rt
 order by avg_length asc;
 
 --Task_03
-SELECT AVG(min_length) min
-    , AVG(max_length) max
-FROM 
-    (SELECT t.rating
-      , MIN(t.length)  min_length
-      , MAX(t.length)  max_length
-      , AVG(t.length)  avg_length
-      , MIN(t.rental_rate)  min_rental_rate
-      , MAX(t.rental_rate)  max_rental_rate
-      , AVG(t.rental_rate)  avg_rental_rate
-FROM
-  (SELECT title
+select avg(min_length) min
+    , avg(max_length) max
+from 
+    (select t.rating
+      , min(t.length)  min_length
+      , max(t.length)  max_length
+      , avg(t.length)  avg_length
+      , min(t.rental_rate)  min_rental_rate
+      , max(t.rental_rate)  max_rental_rate
+      , avg(t.rental_rate)  avg_rental_rate
+from
+  (select title
          , rental_rate
          , length
          , rating
-   FROM movie
-   WHERE rental_rate > 2
-   ORDER BY length DESC
-   LIMIT 40) t
-GROUP BY t.rating
-ORDER BY avg_length) top_rating
+   from movie
+   where rental_rate > 2
+   order by length desc
+   limit 40) t
+group by t.rating
+order by avg_length) top_rating
 
 --Task_04
 select avg(t.cnt)
